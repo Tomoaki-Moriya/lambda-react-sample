@@ -10,20 +10,39 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Timeout: 3
-      Tracing: Active
-      LoggingConfig:
-        LogFormat: JSON
       PackageType: Image
       Architectures:
         - x86_64
       ImageUri: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/lambda-react-sample:latest
-      FunctionUrlConfig:
-        AuthType: NONE
-      Metadata:
-        Dockerfile: Dockerfile
-        DockerContext: ./src
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+            RestApiId: !Ref LambdaReactSampleApi
+        GetItemRoute:
+          Type: Api
+          Properties:
+            Path: /api/items
+            Method: GET
+            RestApiId: !Ref LambdaReactSampleApi
+        DynamicRoute:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: GET
+            RestApiId: !Ref LambdaReactSampleApi
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./src
+
+  LambdaReactSampleApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: lambda-react-sample
 
 Outputs:
-  LambdaReactSampleFunctionUrl:
-    Description: "URL for the LambdaReactSample function"
-    Value: !GetAtt LambdaReactSampleFunction.FunctionUrl
+  LambdaReactSampleApi:
+    Description: "API Gateway endpoint URL without stage for LambdaReactSample function"
+    Value: !Sub "https://${LambdaReactSampleApi}.execute-api.${AWS::Region}.amazonaws.com/lambda-react-sample"
