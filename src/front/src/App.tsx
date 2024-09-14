@@ -10,7 +10,7 @@ function App() {
   const { items } = state;
 
   const handleOnClick = () => {
-    fetch("/api/items")
+    fetch(`${window.location.pathname}/api/items`)
       .then((response) => response.json())
       .then((data) => {
         setState((s) => ({ ...s, items: [...s.items, ...data.items] }));

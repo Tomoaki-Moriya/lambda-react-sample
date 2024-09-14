@@ -7,5 +7,5 @@ sam init --runtime python3.11 --name lambda-react-sample
 ```
 
 ```sh
-npm cretae vite@latest front
+npm create vite@latest front
 ```
