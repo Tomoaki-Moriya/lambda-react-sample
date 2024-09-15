@@ -64,7 +64,7 @@ routes: dict[str, Callable[[dict], dict]] = {
 
 def lambda_handler(event, context):
     path = event.get("resource", "")
-    route = routes.get(path, dynamic_route)
+    route = routes.get(path)
 
     if not route:
         return {"statusCode": 404}

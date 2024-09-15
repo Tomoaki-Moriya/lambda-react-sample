@@ -1,11 +1,13 @@
-# lambda-react-sample
+# React Deployment with Lambda and API Gateway
 
-## setup
+This project demonstrates how to deploy a React application using AWS Lambda and API Gateway. The setup includes creating a serverless backend with Lambda functions and exposing them through API Gateway to serve the React frontend.
+
+# Getting started
 
 ```sh
-sam init --runtime python3.11 --name lambda-react-sample
+sam build
 ```
 
 ```sh
-npm create vite@latest front
+sam deploy
 ```
